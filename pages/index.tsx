@@ -3,8 +3,6 @@ import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import { PrismaClient } from "@prisma/client";
 
-console.log("Trying!");
-
 const client = new PrismaClient();
 
 export default function Home(props: { data: string }) {
