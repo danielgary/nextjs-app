@@ -1,6 +1,9 @@
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
+import { PrismaClient } from "@prisma/client";
+
+const client = new PrismaClient();
 
 export default function Home(props: { data: string }) {
   const serverData = JSON.parse(props.data);
@@ -16,7 +19,7 @@ export default function Home(props: { data: string }) {
         <h1 className={styles.title}>
           Welcome to{" "}
           <a href="https://nextjs.org">
-            Next.js! The time is {serverData.time}
+            Next.js! The time is {serverData.time}, count is {serverData.count}
           </a>
         </h1>
 
@@ -75,6 +78,8 @@ export default function Home(props: { data: string }) {
 }
 
 export async function getServerSideProps() {
-  const data = JSON.stringify({ time: new Date() });
+  const count = await client.sample.count();
+
+  const data = JSON.stringify({ time: new Date(), count });
   return { props: { data } };
 }
